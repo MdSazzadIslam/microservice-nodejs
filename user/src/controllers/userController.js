@@ -18,7 +18,7 @@ const getById = async (req, res, next) => {
   try {
     const user = await UserService.getById(req.params.id);
     if (user) {
-      res.json({
+      return res.json({
         _id: user._id,
         firstName: user.firstName,
         lastName: user.lastName,
@@ -67,7 +67,7 @@ const login = async (req, res, next) => {
         //creating a token
         var token = await accessToken(user._id);
         if (user) {
-          res.json({
+          return res.json({
             success: true,
             msg: "Successfull",
             _id: user._id,
@@ -127,7 +127,7 @@ const registration = async (req, res, next) => {
       const user = await UserService.registration(newUser);
 
       if (user) {
-        res.status(200).send({
+        return res.status(200).send({
           success: true,
           msg: "Register Success. Please login",
           user,

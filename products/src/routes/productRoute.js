@@ -1,13 +1,19 @@
 "use strict";
 const express = require("express");
 const router = express.Router();
-const productController = require("../controllers/productController");
+const {
+  getAll,
+  getById,
+  createProduct,
+  updateProduct,
+  deleteProduct,
+} = require("../controllers/productController");
 //const verifyToken = require("../middlewares/verifyToken");
 
-router.get("/", productController.getAll);
-router.get("/:id", productController.getById);
-router.post("/create", productController.create);
-router.put("/update/:id", productController.update);
-router.delete("/delete/:id", productController.delete);
+router.get("/", getAll);
+router.get("/:id", getById);
+router.post("/create", createProduct);
+router.put("/update/:id", updateProduct);
+router.delete("/delete/:id", deleteProduct);
 
 module.exports = router;

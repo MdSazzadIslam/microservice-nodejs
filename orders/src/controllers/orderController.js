@@ -1,7 +1,7 @@
 "use strict";
 const OrderService = require("../services/OrderService");
 
-exports.getAll = async (req, res, next) => {
+const getAll = async (req, res, next) => {
   try {
     const products = await OrderService.getAll(req.userId);
     res.json(products);
@@ -10,7 +10,7 @@ exports.getAll = async (req, res, next) => {
   }
 };
 
-exports.getById = async (req, res, next) => {
+const getById = async (req, res, next) => {
   try {
     const products = await OrderService.getById(req.params.id);
     res.json(products);
@@ -19,7 +19,7 @@ exports.getById = async (req, res, next) => {
   }
 };
 
-exports.create = async (req, res, next) => {
+const createOrder = async (req, res, next) => {
   try {
     const data = {
       products: req.body.products,
@@ -42,7 +42,7 @@ exports.create = async (req, res, next) => {
   }
 };
 
-exports.update = async (req, res, next) => {
+const updateOrder = async (req, res, next) => {
   try {
     const isExists = await OrderService.getById(req.params.id);
     if (isExists) {
@@ -68,7 +68,7 @@ exports.update = async (req, res, next) => {
   }
 };
 
-exports.delete = async (req, res, next) => {
+const deleteOrder = async (req, res, next) => {
   try {
     const result = await OrderService.delete(req.params.id);
     if (result) {
@@ -81,4 +81,12 @@ exports.delete = async (req, res, next) => {
   } catch (error) {
     return res.status(500).send({ success: false, msg: error.message });
   }
+};
+
+module.exports = {
+  getAll,
+  getById,
+  createOrder,
+  updateOrder,
+  deleteOrder,
 };

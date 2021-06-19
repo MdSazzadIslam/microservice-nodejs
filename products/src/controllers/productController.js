@@ -1,7 +1,7 @@
 "use strict";
 const ProductService = require("../services/ProductService");
 
-exports.getAll = async (req, res, next) => {
+const getAll = async (req, res, next) => {
   try {
     const products = await ProductService.getAll();
     return res.status(200).send({
@@ -14,7 +14,7 @@ exports.getAll = async (req, res, next) => {
   }
 };
 
-exports.getById = async (req, res, next) => {
+const getById = async (req, res, next) => {
   try {
     const products = await ProductService.getById(req.params.id);
     return res.send(products);
@@ -23,7 +23,7 @@ exports.getById = async (req, res, next) => {
   }
 };
 
-exports.create = async (req, res, next) => {
+const createProduct = async (req, res, next) => {
   if (!req.file) {
     return res
       .status(400)
@@ -52,7 +52,7 @@ exports.create = async (req, res, next) => {
   }
 };
 
-exports.update = async (req, res, next) => {
+const updateProduct = async (req, res, next) => {
   try {
     const isExists = await ProductService.getById(req.params.id);
     if (isExists) {
@@ -74,7 +74,7 @@ exports.update = async (req, res, next) => {
   }
 };
 
-exports.delete = async (req, res, next) => {
+const deleteProduct = async (req, res, next) => {
   try {
     const result = await ProductService.delete(req.params.id);
     if (result) {
@@ -87,4 +87,12 @@ exports.delete = async (req, res, next) => {
   } catch (error) {
     return res.status(500).send({ success: false, msg: error.message });
   }
+};
+
+module.exports = {
+  getAll,
+  getById,
+  createProduct,
+  updateProduct,
+  deleteProduct,
 };

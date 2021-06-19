@@ -5,7 +5,7 @@ const bcrypt = require("bcrypt");
 const UserService = require("../services/UserService");
 const accessToken = require("../middlewares/accessToken");
 
-exports.getAll = async (req, res, next) => {
+const getAll = async (req, res, next) => {
   try {
     const users = await UserService.getAll();
     res.json(users);
@@ -14,7 +14,7 @@ exports.getAll = async (req, res, next) => {
   }
 };
 
-exports.getById = async (req, res, next) => {
+const getById = async (req, res, next) => {
   try {
     const user = await UserService.getById(req.params.id);
     if (user) {
@@ -33,7 +33,7 @@ exports.getById = async (req, res, next) => {
   }
 };
 
-exports.login = async (req, res, next) => {
+const login = async (req, res, next) => {
   try {
     if (!req.body.email || !req.body.password) {
       return res.json({
@@ -79,7 +79,7 @@ exports.login = async (req, res, next) => {
             token: token,
           });
 
-          //res.cookie("token", token, { maxAge: 900000, httpOnly: true });
+          res.cookie("token", token, { maxAge: 1, httpOnly: true });
         } else {
           return res
             .status(401)
@@ -94,7 +94,7 @@ exports.login = async (req, res, next) => {
   }
 };
 
-exports.registration = async (req, res, next) => {
+const registration = async (req, res, next) => {
   debugger;
 
   try {
@@ -143,7 +143,7 @@ exports.registration = async (req, res, next) => {
   }
 };
 
-exports.deleteUser = async (req, res, next) => {
+const deleteUser = async (req, res, next) => {
   const user = await UserService.getById(req.params.id);
   if (user) {
     try {
@@ -157,7 +157,7 @@ exports.deleteUser = async (req, res, next) => {
   }
 };
 
-exports.updateUser = async (req, res, next) => {
+const updateUser = async (req, res, next) => {
   try {
     const user = await UserService.getById(req.params.id);
     console.log(user);
@@ -181,10 +181,20 @@ exports.updateUser = async (req, res, next) => {
   }
 };
 
-exports.logout = (req, res, next) => {
+const logout = (req, res, next) => {
   try {
     cookie.remove("login");
   } catch (err) {
     next(err);
   }
+};
+
+module.exports = {
+  getAll,
+  getById,
+  login,
+  registration,
+  deleteUser,
+  updateUser,
+  logout,
 };

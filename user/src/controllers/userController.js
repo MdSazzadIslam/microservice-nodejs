@@ -8,7 +8,7 @@ const accessToken = require("../middlewares/accessToken");
 const getAll = async (req, res, next) => {
   try {
     const users = await UserService.getAll();
-    res.json(users);
+    return res.json(users);
   } catch (error) {
     return res.status(500).send({ success: false, msg: "Server error" });
   }
@@ -79,17 +79,17 @@ const login = async (req, res, next) => {
             token: token,
           });
 
-          res.cookie("token", token, { maxAge: 1, httpOnly: true });
+          //  res.cookie("token", token, { maxAge: 1, httpOnly: true });
         } else {
           return res
             .status(401)
             .send({ success: false, msg: "Please check all the data" });
         }
-      } catch (error) {
+      } catch (err) {
         return res.status(500).json({ success: false, msg: err.message });
       }
     }
-  } catch (error) {
+  } catch (err) {
     return res.status(500).json({ success: false, msg: err.message });
   }
 };
@@ -106,7 +106,7 @@ const registration = async (req, res, next) => {
     } else if (password.length < 8) {
       return res.status(401).send({
         success: true,
-        msg: "Password must be at least 6 characters.",
+        msg: "Password must be at least 8 characters.",
       });
     } else {
       const userExists = await UserService.checkEmailExist(email);
@@ -130,6 +130,7 @@ const registration = async (req, res, next) => {
         res.status(200).send({
           success: true,
           msg: "Register Success. Please login",
+          user,
         });
       } else {
         return res

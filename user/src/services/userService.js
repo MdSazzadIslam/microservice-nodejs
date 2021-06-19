@@ -32,9 +32,9 @@ class UserService {
     return await User.find({});
   };
 
-  static async getById(id) {
+  getById = async (id) => {
     return await User.findById(id);
-  }
+  };
 }
 
 module.exports = new UserService();

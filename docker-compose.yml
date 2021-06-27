@@ -7,7 +7,7 @@ services:
             depends_on: 
                 - db
             environment:
-                    -MONGO_URI = mongodb+srv://mern-ecom123:mern-ecom123@mern-ecommerce.ksbpm.mongodb.net/products?retryWrites=true&w=majority
+                    -MONGO_URI = 
                 
     products:
         build: './products'
@@ -16,8 +16,7 @@ services:
             depends_on: 
                     - db
             environment:
-                    -MONGO_URI = mongodb+srv://mern-ecom123:mern-ecom123@mern-ecommerce.ksbpm.mongodb.net/products?retryWrites=true&w=majority
-
+                    -MONGO_URI =  
 
     orders:
         build: './orders'
@@ -28,4 +27,4 @@ services:
                 -user
                 -product
                 environment:
-                    -MONGO_URI = mongodb+srv://mern-ecom123:mern-ecom123@mern-ecommerce.ksbpm.mongodb.net/orders?retryWrites=true&w=majority
+                    -MONGO_URI =  

@@ -5,9 +5,13 @@ const app = require("./src/app");
 const main = async () => {
   await connectDB();
 
+  app.get("/", (req, res) => {
+    res.send("Order service is running");
+  });
+
   app.listen(process.env.PORT, () => {
     console.log(
-      `⚡️[server]: running at http://localhost:${process.env.PORT}  ${process.env.NODE_ENV}`
+      `⚡️[server]:  Order service is running at port :${process.env.PORT}  ${process.env.NODE_ENV}`
     );
   });
 };

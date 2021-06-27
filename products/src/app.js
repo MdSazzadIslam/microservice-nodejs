@@ -24,10 +24,6 @@ var accessLogStream = fs.createWriteStream(
 //setup the logger
 app.use(logger("combined", { stream: accessLogStream }));
 
-app.get("/", (req, res) => {
-  res.send("Product api is running");
-});
-
 app.use("/api/product", productRoute);
 
 module.exports = app;

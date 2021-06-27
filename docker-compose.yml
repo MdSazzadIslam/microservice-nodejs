@@ -1,0 +1,31 @@
+version: "1"
+services:
+    user:
+        build: './user'
+        ports:
+            -"5000:5000"
+            depends_on: 
+                - db
+            environment:
+                    -MONGO_URI = mongodb+srv://mern-ecom123:mern-ecom123@mern-ecommerce.ksbpm.mongodb.net/products?retryWrites=true&w=majority
+                
+    products:
+        build: './products'
+        ports:
+            -"5001:5001"
+            depends_on: 
+                    - db
+            environment:
+                    -MONGO_URI = mongodb+srv://mern-ecom123:mern-ecom123@mern-ecommerce.ksbpm.mongodb.net/products?retryWrites=true&w=majority
+
+
+    orders:
+        build: './orders'
+        ports:
+            -"5002:5002"
+            depends_on:
+                -db
+                -user
+                -product
+                environment:
+                    -MONGO_URI = mongodb+srv://mern-ecom123:mern-ecom123@mern-ecommerce.ksbpm.mongodb.net/orders?retryWrites=true&w=majority

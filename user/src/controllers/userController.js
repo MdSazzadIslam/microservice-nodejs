@@ -3,35 +3,7 @@
 require("dotenv").config({ path: "../.env" });
 const bcrypt = require("bcrypt");
 const UserService = require("../services/UserService");
-const accessToken = require("../middlewares/accessToken");
-
-const getAll = async (req, res, next) => {
-  try {
-    const users = await UserService.getAll();
-    return res.json(users);
-  } catch (error) {
-    return res.status(500).send({ success: false, msg: "Server error" });
-  }
-};
-
-const getById = async (req, res, next) => {
-  try {
-    const user = await UserService.getById(req.params.id);
-    if (user) {
-      return res.json({
-        _id: user._id,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email,
-        password: user.password,
-        active: user.active,
-        role: user.role,
-      });
-    }
-  } catch (error) {
-    return res.status(500).send({ success: false, msg: "Server error" });
-  }
-};
+const generateToken = require("../middlewares/generateToken");
 
 const login = async (req, res, next) => {
   try {
@@ -65,7 +37,7 @@ const login = async (req, res, next) => {
           });
 
         //creating a token
-        var token = await accessToken(user._id);
+        var token = await generateToken(user._id);
         if (user) {
           return res.json({
             success: true,
@@ -144,44 +116,6 @@ const registration = async (req, res, next) => {
   }
 };
 
-const deleteUser = async (req, res, next) => {
-  const user = await UserService.getById(req.params.id);
-  if (user) {
-    try {
-      await UserService.deleteUser(req.params.id);
-      return res.status(200).send({ success: true, msg: "Deleted" });
-    } catch (error) {
-      return res.status(404).send({ success: true, msg: "User not found" });
-    }
-  } else {
-    return res.status(404).send({ success: true, msg: "User not found" });
-  }
-};
-
-const updateUser = async (req, res, next) => {
-  try {
-    const user = await UserService.getById(req.params.id);
-    console.log(user);
-
-    if (user) {
-      user.firstName = req.body.firstName;
-      user.lastName = req.body.lastName;
-      user.email = req.body.email;
-      user.activeStatus = req.body.activeStatus;
-
-      const newUser = await UserService.updateUser(req.params.id, user);
-
-      return res
-        .status(200)
-        .send({ success: true, msg: "Updated successfully" });
-    } else {
-      return res.status(404).send({ success: false, msg: "User not found" });
-    }
-  } catch (err) {
-    return res.status(500).json({ success: false, msg: err.message });
-  }
-};
-
 const logout = (req, res, next) => {
   try {
     cookie.remove("login");
@@ -191,11 +125,7 @@ const logout = (req, res, next) => {
 };
 
 module.exports = {
-  getAll,
-  getById,
   login,
   registration,
-  deleteUser,
-  updateUser,
   logout,
 };

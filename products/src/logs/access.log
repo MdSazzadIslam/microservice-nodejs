@@ -1,0 +1,3 @@
+::1 - - [27/Jun/2021:12:01:41 +0000] "GET /product/ HTTP/1.1" 404 147 "-" "PostmanRuntime/7.28.0"
+::1 - - [27/Jun/2021:12:01:49 +0000] "GET /api/product HTTP/1.1" 200 3341 "-" "PostmanRuntime/7.28.0"
+::1 - - [27/Jun/2021:12:03:54 +0000] "GET /api/product/60ad70c8819a854760fc4ebd HTTP/1.1" 200 354 "-" "PostmanRuntime/7.28.0"

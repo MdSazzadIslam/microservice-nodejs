@@ -24,9 +24,20 @@ var accessLogStream = fs.createWriteStream(
 //setup the logger
 app.use(logger("combined", { stream: accessLogStream }));
 
-app.get("/", (req, res) => {
-  res.send("User api is running");
-});
+process
+  .on("unhandleRejection", (reason, promise) => {
+    logger.error(reason, "Unhandle rejection", promise);
+    logger.error(
+      reason,
+      new Date().toUTCString() + " unhandleRejection:",
+      promise
+    );
+  })
+  .on("uncaughtException", (err) => {
+    logger.error(new Date().toUTCString() + " uncaughtException:", err);
+    console.error(err.stack);
+    process.exit(1);
+  });
 
 app.use("/api/user", userRoute);
 

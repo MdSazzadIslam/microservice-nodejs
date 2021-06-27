@@ -3,8 +3,8 @@ const OrderService = require("../services/OrderService");
 
 const getAll = async (req, res, next) => {
   try {
-    const products = await OrderService.getAll(req.userId);
-    res.json(products);
+    const orders = await OrderService.getAll(req.userId);
+    res.json(orders);
   } catch (error) {
     return res.status(500).send({ success: false, msg: error.message });
   }
@@ -12,8 +12,8 @@ const getAll = async (req, res, next) => {
 
 const getById = async (req, res, next) => {
   try {
-    const products = await OrderService.getById(req.params.id);
-    res.json(products);
+    const order = await OrderService.getById(req.params.id);
+    res.json(order);
   } catch (error) {
     return res.status(500).send({ success: false, msg: error.message });
   }

@@ -8,12 +8,12 @@ const {
   updateProduct,
   deleteProduct,
 } = require("../controllers/productController");
-//const verifyToken = require("../middlewares/verifyToken");
+const verifyToken = require("../middlewares/verifyToken");
 
 router.get("/", getAll);
 router.get("/:id", getById);
-router.post("/create", createProduct);
-router.put("/update/:id", updateProduct);
-router.delete("/delete/:id", deleteProduct);
+router.post("/create", verifyToken, createProduct);
+router.put("/update/:id", verifyToken, updateProduct);
+router.delete("/delete/:id", verifyToken, deleteProduct);
 
 module.exports = router;
